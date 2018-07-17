@@ -1,66 +1,8 @@
+require_relative "board.rb"
+require_relative "boardcase.rb"
+require_relative "player.rb"
 
-####################################### définitions des classes ###################################################################
-class Board
-	attr_accessor :grid
-	def initialize		# crée la grille de 9 cases 
-		@grid = []
-		for i in 1..3        # trois lignes dans la grille
-			i_line =[]
-			for j in 1 ..3   # trois cases par ligne
-				newcase = BoardCase.new
-				i_line.push newcase
-			end
-			@grid.push i_line
 
-		end
-	end
-
-	def afficher        # affiche la grille
-		for i in 0..2
-			ligne = [@grid[i][0].etat , @grid[i][1].etat , @grid[i][2].etat] 
-			puts(ligne.join(" "))
-		end
-	end
-
-end
-
-class BoardCase
-	attr_accessor  :etat
-	def initialize
-		@etat = "."    # etats possibles : "." ou "X" ou "O" 
-	end
-	def tic(signe)     # méthode qui change le signe dans une case de la grille
-		@etat = signe
-	end
-end
-
-class Player
-	attr_accessor :name , :signe , :choix_ligne, :choix_colonne
-	def initialize(name, signe)     #nom du joueur et symbole associé
-		@name = name
-		@signe = signe
-		@choix_ligne = nil
-		@choix_colonne = nil
-	end
-	def play(board)                #actions faites quand un joueur joue
-		puts("Hey #{@name}! Choisis une case :))) ")
-		printf("> ligne : ")
-		@choix_ligne = gets.chomp.to_i
-		printf("> colonne : ")
-		@choix_colonne = gets.chomp.to_i
-		if @choix_ligne > 2 || @choix_colonne > 2    #gestion d'exception : si le joueur entre un numero de ligne ou de colonne trop grand
-			puts("nombres trop grands")
-			self.play(board)
-		else
-			if (board.grid[@choix_ligne][@choix_colonne].etat == ".")   #gestion d'exception : on fait l'action seulement si la case n'a pas été déjà cochée, 
-				board.grid[@choix_ligne][@choix_colonne].tic(signe)
-			else                                                        #sinon on dit d'en choisir une autre
-				puts("case déjà remplie !")
-				self.play(board)
-			end		
-		end
-	end
-end
 
 class Game
 
@@ -144,11 +86,5 @@ class Game
 		end
 	end
 end
-###################################################################################################################################
 
-########################### main ##########################################################
-
-jeu = Game.new
-
-###########################################################################################
 
